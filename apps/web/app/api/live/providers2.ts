@@ -1,0 +1,2 @@
+export const PROVIDER_RESEARCH=['solana-rpc','pump.fun','dexscreener','jupiter','birdeye','rugcheck','goplus','helius','yellowstone'] as const;
+export const providerAvailability={jupiter:true,dexscreener:true,solanaRpc:true,helius:!!process.env.HELIUS_API_KEY,birdeye:!!process.env.BIRDEYE_API_KEY,goplus:!!process.env.GOPLUS_API_KEY,rugcheck:!!process.env.RUGCHECK_API_URL,yellowstone:!!process.env.YELLOWSTONE_GRPC_URL};
