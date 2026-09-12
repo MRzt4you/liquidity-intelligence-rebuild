@@ -1,0 +1,1 @@
+{"scripts":{"dev":"tsx src/server.ts","build":"tsc","start":"node dist/server.js"},"dependencies":{"fastify":"latest","@fastify/cors":"latest","ws":"latest","pg":"latest","ioredis":"latest"},"devDependencies":{"tsx":"latest","typescript":"latest","@types/node":"latest","@types/ws":"latest"}}
