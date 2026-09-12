@@ -1,1 +1,34 @@
-{"scripts":{"dev":"next dev","build":"next build","start":"next start"},"dependencies":{"next":"latest","react":"latest","react-dom":"latest","recharts":"latest"}}
+{
+  "name": "liquidity-intelligence-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "dev:vinext": "vinext dev",
+    "build": "vinext build",
+    "build:vinext": "vinext build",
+    "start": "next start",
+    "start:vinext": "vinext start",
+    "deploy": "vinext-cloudflare deploy"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-server-dom-webpack": "latest",
+    "recharts": "latest",
+    "vinext": "latest",
+    "@vinext/cloudflare": "latest"
+  },
+  "devDependencies": {
+    "vite": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-rsc": "latest",
+    "@cloudflare/vite-plugin": "latest",
+    "wrangler": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}
