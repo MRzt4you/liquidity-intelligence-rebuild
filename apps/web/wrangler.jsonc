@@ -2,6 +2,6 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "liquidity-intelligence-rebuild",
   "main": "vinext/server/app-router-entry",
-  "compatibility_date": "2026-09-12",
+  "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"]
 }
