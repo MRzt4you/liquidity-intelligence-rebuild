@@ -1,1 +1,3 @@
-export default { output: 'standalone' };
+const nextConfig = {};
+
+export default nextConfig;
