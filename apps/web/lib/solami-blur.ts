@@ -51,6 +51,7 @@ function putI64(a:number[],n:number){let x=BigInt(Math.round(n));if(x<0)x=(1n<<6
 function b64(a:number[]){let s='';for(const x of a)s+=String.fromCharCode(x);return btoa(s)}
 
 export function syntheticLog(e:SolamiEvent){
+  if(e.event==='POOL'||e.event==='LIQUIDITY')return 'Program data: AAAA';
   const mint=b58bytes(String(e.mint||''))||new Uint8Array(32),wallet=b58bytes(String(e.wallet||''))||new Uint8Array(32);
   const head=e.event==='NEW'?'1b72a94ddeeb6376':e.event==='GRADUATION'?'5f72619cd42e9808':'bddb7fd34ee661ee';
   const a:number[]=Array.from(new Uint8Array(head.match(/../g)!.map(x=>parseInt(x,16))));
