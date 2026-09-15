@@ -10,11 +10,11 @@ export const runtime='edge'; export const dynamic='force-dynamic';
 export async function GET(request:Request){
  if(request.headers.get('upgrade')?.toLowerCase()!=='websocket')return new Response('Expected WebSocket',{status:426});
  const [client,server]=Object.values(new WebSocketPair()); server.accept();
- let closed=false,remote:WebSocket|null=null,reconnectTimer:any=null,reconnectDelay=1000,providerIndex=0,reconnecting=false,events=0,lastEventAt=0,healthTimer:any=null;
+ let closed=false,remote:WebSocket|null=null,reconnectTimer:any=null,reconnectDelay=1000,providerIndex=0,reconnecting=false,events=0,lastEventAt=0,healthTimer:any=null,watchdog:any=null;
  const providers=USE_SOLAMI?[SOLAMI_URL,...WS_URLS]:WS_URLS; const source=(i:number)=>USE_SOLAMI&&i===0?'solami-blur':'solana-pubsub';
  const send=(x:any)=>{if(!closed)try{server.send(JSON.stringify(x))}catch{}};
  const closeRemote=()=>{try{remote?.close(1000,'reconnect')}catch{} remote=null};
- const shutdown=(code:number,reason:string)=>{if(closed)return;closed=true;if(reconnectTimer)clearTimeout(reconnectTimer);if(healthTimer)clearInterval(healthTimer);closeRemote();try{server.close(code,reason)}catch{}};
+ const shutdown=(code:number,reason:string)=>{if(closed)return;closed=true;if(reconnectTimer)clearTimeout(reconnectTimer);if(healthTimer)clearInterval(healthTimer);if(watchdog)clearInterval(watchdog);closeRemote();try{server.close(code,reason)}catch{}};
  const fail=(reason:string)=>{if(closed||reconnecting)return;reconnecting=true;providerIndex=(providerIndex+1)%providers.length;closeRemote();const delay=Math.min(30000,reconnectDelay);reconnectDelay=Math.min(30000,reconnectDelay*2);send({type:'upstream',state:'reconnecting',reason,source:source(providerIndex),events,lastEventAt:lastEventAt||null,delay});reconnectTimer=setTimeout(async()=>{reconnectTimer=null;reconnecting=false;const ok=await connectUpstream();if(!ok)fail('upstream connection failed')},delay)};
  const connectUpstream=async():Promise<boolean>=>{if(closed)return false;const url=providers[providerIndex]||providers[0];const solami=USE_SOLAMI&&providerIndex===0;try{
    const upstream=await fetch(url,{headers:{Upgrade:'websocket',Connection:'Upgrade'}}); const ws=upstream.webSocket;
@@ -43,5 +43,6 @@ export async function GET(request:Request){
  const ok=await connectUpstream();if(!ok)fail('initial connection failed');
  send({type:'ready',source:source(providerIndex),providers:providers.length,mode:'event-verified'});
  healthTimer=setInterval(()=>{if(closed)return;const silent=lastEventAt?Date.now()-lastEventAt:0;send({type:'health',state:lastEventAt&&silent<30000?'LIVE':'CONNECTED_NO_EVENTS',source:source(providerIndex),events,lastEventAt:lastEventAt||null,silentMs:silent||null})},10000);
+ watchdog=setInterval(()=>{if(closed||reconnecting||!remote)return;const silent=lastEventAt?Date.now()-lastEventAt:Date.now();if(silent>25000)fail(lastEventAt?'upstream silent for 25s':'upstream connected without events for 25s')},10000);
  return new Response(null,{status:101,webSocket:client});
 }
