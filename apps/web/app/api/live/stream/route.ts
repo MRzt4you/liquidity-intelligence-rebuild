@@ -50,7 +50,7 @@ export async function GET(request:Request){
      });
      ws.addEventListener('error',()=>{if(remote===ws)scheduleReconnect(`${source(url)} upstream error`)});
      ws.addEventListener('close',()=>{if(remote===ws)scheduleReconnect(`${source(url)} upstream closed`)});
-     if(pumpPortal){try{ws.send(JSON.stringify({method:'subscribeNewToken'}));ws.send(JSON.stringify({method:'subscribeAccountTrade',keys:[]}));}catch{try{ws.send(JSON.stringify({method:'subscribeNewToken'}))}catch{scheduleReconnect('pumpportal subscription send failed');return false}}}
+     if(pumpPortal){try{ws.send(JSON.stringify({method:'subscribeNewToken'}))}catch{scheduleReconnect('pumpportal subscription send failed');return false}}
      else if(solami){for(const filter of [{type:'token_create'},{type:'swap',dex:'pumpswap'},{type:'liquidity',dex:'pumpswap'},{type:'pool_create',dex:'pumpswap'}])try{ws.send(JSON.stringify(filter))}catch{scheduleReconnect('subscription send failed');return false}}
      else try{PROGRAMS.forEach((program,i)=>ws.send(JSON.stringify({jsonrpc:'2.0',id:i+1,method:'logsSubscribe',params:[{mentions:[program]},{commitment:'confirmed'}]})))}catch{scheduleReconnect('subscription send failed');return false}
      return true;
