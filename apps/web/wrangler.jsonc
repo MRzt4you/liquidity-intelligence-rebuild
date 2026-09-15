@@ -1,10 +1,12 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "liquidity-intelligence-rebuild",
-  "main": "./worker/index.ts",
+  "main": "vinext/server/fetch-handler",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS",
     "not_found_handling": "none"
   }
 }
