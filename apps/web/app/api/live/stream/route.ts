@@ -1,4 +1,4 @@
-import {buildSolamiUrl,normalizeSolami} from '@/lib/solami-blur';
+import {buildSolamiUrl,normalizeSolami} from '../../../../lib/solami-blur';
 const DEFAULT_WS=['wss://api.mainnet-beta.solana.com','wss://solana-rpc.publicnode.com'];
 const RPC_WS_URLS=(process.env.SOLANA_WS_URLS||process.env.SOLANA_WS_URL||'').split(',').map(x=>x.trim()).filter(Boolean);
 const WS_URLS=RPC_WS_URLS.length?RPC_WS_URLS:DEFAULT_WS;
