@@ -1,0 +1,96 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DexScreener API",
+    "version": "1.0.0",
+    "description": "OpenAPI definition for the DexScreener token enrichment endpoint used by Liquidity Intelligence."
+  },
+  "servers": [
+    {
+      "url": "https://api.dexscreener.com"
+    }
+  ],
+  "paths": {
+    "/tokens/v1/{chainId}/{tokenAddresses}": {
+      "get": {
+        "operationId": "getTokenProfiles",
+        "summary": "Get token pairs and market data",
+        "parameters": [
+          {
+            "name": "chainId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "solana"
+            }
+          },
+          {
+            "name": "tokenAddresses",
+            "in": "path",
+            "required": true,
+            "description": "Comma-separated token contract addresses.",
+            "schema": {
+              "type": "string",
+              "example": "So11111111111111111111111111111111111111112"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token pair data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pair"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pair": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "chainId": { "type": "string" },
+          "dexId": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "pairAddress": { "type": "string" },
+          "baseToken": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "address": { "type": "string" },
+              "name": { "type": "string" },
+              "symbol": { "type": "string" }
+            }
+          },
+          "quoteToken": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "priceNative": { "type": "string" },
+          "priceUsd": { "type": "string" },
+          "txns": { "type": "object", "additionalProperties": true },
+          "volume": { "type": "object", "additionalProperties": true },
+          "priceChange": { "type": "object", "additionalProperties": true },
+          "liquidity": { "type": "object", "additionalProperties": true },
+          "fdv": { "type": "number" },
+          "marketCap": { "type": "number" },
+          "pairCreatedAt": { "type": "integer" }
+        }
+      }
+    }
+  }
+}
