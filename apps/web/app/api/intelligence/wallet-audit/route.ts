@@ -1,4 +1,4 @@
-import { loadPumpCreationTime, loadWalletTrades, reconstructPositions, summarizePositions } from '../../../../../../lib/bitquery-wallet-audit';
+import { loadPumpCreationTime, loadWalletTrades, reconstructPositions, summarizePositions } from '../../../../lib/bitquery-wallet-audit';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
