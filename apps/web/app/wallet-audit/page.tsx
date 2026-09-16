@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 
 type Audit = {
   ok: boolean;
@@ -110,10 +110,10 @@ export default function WalletAuditPage() {
   );
 }
 
-const inputStyle: React.CSSProperties = { background: '#0a0f16', border: '1px solid #223247', borderRadius: 6, padding: '13px 14px', color: '#eaf2ff', outline: 'none' };
-const buttonStyle: React.CSSProperties = { background: '#63e6ff', color: '#031018', border: 0, borderRadius: 6, padding: '0 18px', fontWeight: 800, letterSpacing: 1, cursor: 'pointer' };
-const cardStyle: React.CSSProperties = { background: '#090e15', border: '1px solid #1b2939', borderRadius: 8, padding: 16 };
-const gridStyle: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 10 };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: 12, color: '#64758a', fontSize: 11, borderBottom: '1px solid #1d2a38' };
-const tdStyle: React.CSSProperties = { padding: 12, borderBottom: '1px solid #121c28', fontSize: 12 };
-const errorStyle: React.CSSProperties = { ...cardStyle, color: '#ff6877', marginBottom: 16 };
+const inputStyle: CSSProperties = { background: '#0a0f16', border: '1px solid #223247', borderRadius: 6, padding: '13px 14px', color: '#eaf2ff', outline: 'none' };
+const buttonStyle: CSSProperties = { background: '#63e6ff', color: '#031018', border: 0, borderRadius: 6, padding: '0 18px', fontWeight: 800, letterSpacing: 1, cursor: 'pointer' };
+const cardStyle: CSSProperties = { background: '#090e15', border: '1px solid #1b2939', borderRadius: 8, padding: 16 };
+const gridStyle: CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 10 };
+const thStyle: CSSProperties = { textAlign: 'left', padding: 12, color: '#64758a', fontSize: 11, borderBottom: '1px solid #1d2a38' };
+const tdStyle: CSSProperties = { padding: 12, borderBottom: '1px solid #121c28', fontSize: 12 };
+const errorStyle: CSSProperties = { ...cardStyle, color: '#ff6877', marginBottom: 16 };
