@@ -1,5 +1,11 @@
 export const BITQUERY_ENDPOINT = process.env.BITQUERY_GRAPHQL_URL || 'https://streaming.bitquery.io/graphql';
 
+const QUOTE_MINTS = new Set([
+  'So11111111111111111111111111111111111111112',
+  'EPjFWdd5AufqSSqeM2qN1xzybapC8GkWn4nK1d1a',
+  'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+]);
+
 export type WalletTrade = {
   time: string;
   signature: string;
@@ -100,10 +106,7 @@ async function bitquery<T>(query: string, variables: Record<string, unknown>): P
 
   const response = await fetch(BITQUERY_ENDPOINT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     body: JSON.stringify({ query, variables }),
     cache: 'no-store',
   });
@@ -135,7 +138,7 @@ export async function loadWalletTrades(wallet: string, days = 30): Promise<Walle
     priceUsd: numberOrNull(row.Trade?.PriceInUSD),
     dex: row.Trade?.Dex?.ProtocolName ? String(row.Trade.Dex.ProtocolName) : null,
     market: row.Trade?.Market?.MarketAddress ? String(row.Trade.Market.MarketAddress) : null,
-  })).filter((x) => x.mint && x.time && x.signature);
+  })).filter((x) => x.mint && !QUOTE_MINTS.has(x.mint) && x.time && x.signature);
 }
 
 export async function loadPumpCreationTime(mint: string): Promise<string | null> {
